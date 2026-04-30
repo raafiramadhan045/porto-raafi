@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raafi Ramadhan — Graphic Designer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0a0a0a',
+                        accent: '#ff006e',
+                        accent2: '#8338ec',
+                        accent3: '#3a86ff',
+                        warm: '#ffbe0b',
+                        dark: '#111111',
+                        light: '#f5f5f5',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { scroll-behavior: smooth; }
+
+        /* Huge Inc inspired - minimal, bold */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 0.15s; }
+        .stagger-2 { transition-delay: 0.3s; }
+        .stagger-3 { transition-delay: 0.45s; }
+        .stagger-4 { transition-delay: 0.6s; }
+
+        /* Huge-style minimal nav */
+        .nav-minimal {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Huge-style case study cards */
+        .case-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .case-card img {
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+        }
+
+        .case-card:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .case-card .case-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%);
+            opacity: 0.7;
+            transition: opacity 0.4s ease;
+        }
+
+        .case-card:hover .case-overlay {
+            opacity: 0.9;
+        }
+
+        .case-card .case-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            transform: translateY(20px);
+            opacity: 0.9;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+        }
+
+        .case-card:hover .case-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Huge-style massive typography */
+        .huge-text {
+            font-size: clamp(3rem, 8vw, 7rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+        }
+
+        .huge-text-sm {
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 50%, #3a86ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 50%, #3a86ff 100%);
+        }
+
+        /* Minimal button */
+        .btn-minimal {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-minimal::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #ff006e, #8338ec);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-minimal:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Marquee */
+        .marquee {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Grid pattern - Huge style */
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .grid-bg-dark {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Stats counter */
+        .stat-number {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Smooth image load */
+        img {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        img.loaded {
+            opacity: 1;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff006e, #8338ec);
+            border-radius: 4px;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Link underline animation */
+        .link-hover {
+            position: relative;
+            display: inline-block;
+        }
+
+        .link-hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .link-hover:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body class="font-sans text-primary antialiased bg-white">
+
+    <!-- Navigation - Huge Style (Minimal, clean) -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-500 py-6">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="#" class="text-xl font-display font-bold tracking-tight">RAAFI.</a>
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#work" class="text-sm font-medium link-hover">Work</a>
+                <a href="#about" class="text-sm font-medium link-hover">About</a>
+                <a href="#services" class="text-sm font-medium link-hover">Services</a>
+                <a href="#contact" class="text-sm font-medium px-6 py-2 border border-primary rounded-full hover:bg-primary hover:text-white transition-all">Contact</a>
+            </div>
+            <button id="menu-btn" class="md:hidden p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-0 z-40 bg-white flex flex-col items-center justify-center gap-8">
+        <button id="close-menu" class="absolute top-6 right-6 p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <a href="#work" class="text-3xl font-display font-bold mobile-link">Work</a>
+        <a href="#about" class="text-3xl font-display font-bold mobile-link">About</a>
+        <a href="#services" class="text-3xl font-display font-bold mobile-link">Services</a>
+        <a href="#contact" class="text-3xl font-display font-bold mobile-link">Contact</a>
+    </div>
+
+    <!-- Hero Section - Huge Style (Massive type, minimal) -->
+    <section class="min-h-screen flex items-end relative bg-white grid-bg">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 pb-20 pt-32 w-full">
+            <div class="fade-up">
+                <p class="text-sm font-medium text-gray-500 mb-6 tracking-widest uppercase">Graphic Designer / Jakarta</p>
+                <h1 class="huge-text font-display font-bold mb-8 max-w-5xl">
+                    Crafting bold<br>
+                    <span class="gradient-text">visual stories</span><br>
+                    for brands.
+                </h1>
+                <p class="text-lg text-gray-600 max-w-xl mb-10 leading-relaxed">
+                    I design striking identities, vibrant illustrations, and memorable brand experiences that make people stop, stare, and remember.
+                </p>
+                <div class="flex gap-6 items-center">
+                    <a href="#work" class="btn-minimal text-sm font-semibold pb-1">View Selected Work</a>
+                    <span class="text-gray-300">—</span>
+                    <a href="#contact" class="btn-minimal text-sm font-semibold pb-1">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 right-8 hidden lg:block">
+            <div class="w-32 h-32 rounded-full gradient-bg opacity-20 animate-pulse"></div>
+        </div>
+    </section>
+
+    <!-- Marquee - Huge Style -->
+    <div class="py-6 bg-primary text-white/10 border-y border-gray-800">
+        <div class="marquee">
+            <div class="marquee-content font-display font-bold text-4xl tracking-tight">
+                BRANDING — ILLUSTRATION — PRINT DESIGN — PACKAGING — TYPOGRAPHY — VISUAL IDENTITY — POSTER DESIGN — EDITORIAL — BRANDING — ILLUSTRATION — PRINT DESIGN — PACKAGING — TYPOGRAPHY — VISUAL IDENTITY — POSTER DESIGN — EDITORIAL —
+            </div>
+        </div>
+    </div>
+
+    <!-- Selected Work Section - Huge Style (Case Study Grid) -->
+    <section id="work" class="py-24 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16 fade-up">
+                <div>
+                    <p class="text-sm font-medium text-gray-500 mb-4 tracking-widest uppercase">Selected Work</p>
+                    <h2 class="huge-text-sm font-display font-bold">Projects that<br>push boundaries.</h2>
+                </div>
+                <p class="text-gray-600 max-w-md mt-6 lg:mt-0 lg:text-right">
+                    A curated collection of brand identities, illustrations, and print designs for ambitious clients.
+                </p>
+            </div>
+
+            <!-- Case Study Grid - Huge Style (Large images, minimal text overlay) -->
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Case 1 -->
+                <div class="case-card rounded-2xl aspect-[4/3] fade-up">
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?w=800&h=600&fit=crop&q=80" 
+                         alt="Neon Coffee Branding" 
+                         class="w-full h-full object-cover">
+                    <div class="case-overlay"></div>
+                    <div class="case-content">
+                        <p class="text-xs font-medium text-white/60 mb-2 tracking-widest uppercase">Brand Identity</p>
+                        <h3 class="text-2xl lg:text-3xl font-display font-bold text-white mb-2">Neon Coffee Co.</h3>
+                        <p class="text-sm text-white/70">Complete visual identity for a specialty coffee roaster</p>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="case-card rounded-2xl aspect-[4/3] fade-up stagger-1">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=600&fit=crop&q=80" 
+                         alt="Abstract Illustrations" 
+                         class="w-full h-full object-cover">
+                    <div class="case-overlay"></div>
+                    <div class="case-content">
+                        <p class="text-xs font-medium text-white/60 mb-2 tracking-widest uppercase">Illustration</p>
+                        <h3 class="text-2xl lg:text-3xl font-display font-bold text-white mb-2">Abstract Dreams</h3>
+                        <p class="text-sm text-white/70">Digital illustration series exploring color and form</p>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="case-card rounded-2xl aspect-[4/3] fade-up">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=600&fit=crop&q=80" 
+                         alt="Music Festival Poster" 
+                         class="w-full h-full object-cover">
+                    <div class="case-overlay"></div>
+                    <div class="case-content">
+                        <p class="text-xs font-medium text-white/60 mb-2 tracking-widest uppercase">Print & Poster</p>
+                        <h3 class="text-2xl lg:text-3xl font-display font-bold text-white mb-2">Music Festival</h3>
+                        <p class="text-sm text-white/70">Bold poster series with experimental typography</p>
+                    </div>
+                </div>
+
+                <!-- Case 4 -->
+                <div class="case-card rounded-2xl aspect-[4/3] fade-up stagger-1">
+                    <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?w=800&h=600&fit=crop&q=80" 
+                         alt="Tech Startup Branding" 
+                         class="w-full h-full object-cover">
+                    <div class="case-overlay"></div>
+                    <div class="case-content">
+                        <p class="text-xs font-medium text-white/60 mb-2 tracking-widest uppercase">Brand Identity</p>
+                        <h3 class="text-2xl lg:text-3xl font-display font-bold text-white mb-2">Tech Startup</h3>
+                        <p class="text-sm text-white/70">Visual identity system for an AI-powered company</p>
+                    </div>
+                </div>
+
+                <!-- Case 5 -->
+                <div class="case-card rounded-2xl aspect-[4/3] fade-up">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop&q=80" 
+                         alt="Editorial Illustration" 
+                         class="w-full h-full object-cover">
+                    <div class="case-overlay"></div>
+                    <div class="case-content">
+                        <p class="text-xs font-medium text-white/60 mb-2 tracking-widest uppercase">Illustration</p>
+                        <h3 class="text-2xl lg:text-3xl font-display font-bold text-white mb-2">Editorial Series</h3>
+                        <p class="text-sm text-white/70">Magazine illustrations for lifestyle publication</p>
+                    </div>
+                </div>
+
+                <!-- Case 6 -->
+                <div class="case-card rounded-2xl aspect-[4/3] fade-up stagger-1">
+                    <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=800&h=600&fit=crop&q=80" 
+                         alt="Packaging Design" 
+                         class="w-full h-full object-cover">
+                    <div class="case-overlay"></div>
+                    <div class="case-content">
+                        <p class="text-xs font-medium text-white/60 mb-2 tracking-widest uppercase">Packaging</p>
+                        <h3 class="text-2xl lg:text-3xl font-display font-bold text-white mb-2">Organic Skincare</h3>
+                        <p class="text-sm text-white/70">Premium packaging for sustainable beauty brand</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-16 fade-up">
+                <a href="#" class="inline-flex items-center gap-2 px-8 py-4 border-2 border-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-all">
+                    View All Projects
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section - Huge Style (Big numbers, minimal) -->
+    <section class="py-24 lg:py-32 bg-primary text-white grid-bg-dark">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid md:grid-cols-3 gap-12 lg:gap-16">
+                <div class="fade-up">
+                    <p class="stat-number gradient-text mb-2">50+</p>
+                    <p class="text-white/60 text-sm tracking-widest uppercase">Projects Completed</p>
+                </div>
+                <div class="fade-up stagger-1">
+                    <p class="stat-number gradient-text mb-2">30+</p>
+                    <p class="text-white/60 text-sm tracking-widest uppercase">Happy Clients</p>
+                </div>
+                <div class="fade-up stagger-2">
+                    <p class="stat-number gradient-text mb-2">5+</p>
+                    <p class="text-white/60 text-sm tracking-widest uppercase">Years Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section - Huge Style (Clean list) -->
+    <section id="services" class="py-24 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="fade-up">
+                    <p class="text-sm font-medium text-gray-500 mb-4 tracking-widest uppercase">Services</p>
+                    <h2 class="huge-text-sm font-display font-bold mb-8">What I do<br>best.</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        From concept to final deliverable, I help brands find their visual voice and connect with their audience through bold, strategic design.
+                    </p>
+                    <a href="#contact" class="btn-minimal text-sm font-semibold pb-1">Start a Project</a>
+                </div>
+                <div class="space-y-0 fade-up stagger-2">
+                    <div class="py-6 border-t border-gray-200 group hover:pl-4 transition-all">
+                        <h3 class="text-xl font-display font-bold mb-2">Brand Identity</h3>
+                        <p class="text-gray-600 text-sm">Logo design, visual systems, brand guidelines, and identity strategy.</p>
+                    </div>
+                    <div class="py-6 border-t border-gray-200 group hover:pl-4 transition-all">
+                        <h3 class="text-xl font-display font-bold mb-2">Illustration</h3>
+                        <p class="text-gray-600 text-sm">Digital illustrations, editorial art, and custom visual content.</p>
+                    </div>
+                    <div class="py-6 border-t border-gray-200 group hover:pl-4 transition-all">
+                        <h3 class="text-xl font-display font-bold mb-2">Print & Poster</h3>
+                        <p class="text-gray-600 text-sm">Poster design, editorial layout, and print collateral.</p>
+                    </div>
+                    <div class="py-6 border-t border-gray-200 border-b group hover:pl-4 transition-all">
+                        <h3 class="text-xl font-display font-bold mb-2">Packaging</h3>
+                        <p class="text-gray-600 text-sm">Product packaging, label design, and unboxing experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section - Huge Style (Split layout, editorial) -->
+    <section id="about" class="py-24 lg:py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 fade-up">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop&q=80" 
+                             alt="Raafi Ramadhan" 
+                             class="w-full rounded-2xl shadow-2xl">
+                        <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl">
+                            <p class="text-3xl font-display font-bold gradient-text">5+</p>
+                            <p class="text-xs text-gray-500 mt-1">Years</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 fade-up stagger-2">
+                    <p class="text-sm font-medium text-gray-500 mb-4 tracking-widest uppercase">About</p>
+                    <h2 class="huge-text-sm font-display font-bold mb-6">Raafi<br>Ramadhan</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                        I'm a graphic designer based in Jakarta, obsessed with color, typography, and visual storytelling. I believe great design should evoke emotion and leave a lasting impression.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        From bold brand identities to intricate illustrations, I approach every project with curiosity and a drive to push creative boundaries. When I'm not designing, I'm exploring street art, collecting vintage posters, or hunting for the perfect coffee.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Brand Identity</span>
+                        <span class="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Illustration</span>
+                        <span class="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Typography</span>
+                        <span class="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Print Design</span>
+                        <span class="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Packaging</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section - Huge Style (Minimal form, bold CTA) -->
+    <section id="contact" class="py-24 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="fade-up">
+                    <p class="text-sm font-medium text-gray-500 mb-4 tracking-widest uppercase">Contact</p>
+                    <h2 class="huge-text-sm font-display font-bold mb-6">Let's create<br>something<br><span class="gradient-text">extraordinary.</span></h2>
+                    <p class="text-gray-600 leading-relaxed mb-10">
+                        Have a project in mind? I'd love to hear about it. Drop me a message and let's discuss how we can bring your vision to life.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Email</p>
+                                <p class="text-gray-600 text-sm">hello@raafiramadhan.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-accent2 to-accent3 flex items-center justify-center text-white">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Location</p>
+                                <p class="text-gray-600 text-sm">Jakarta, Indonesia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-up stagger-2">
+                    <form id="contact-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-500">Name</label>
+                            <input type="text" required class="w-full px-0 py-4 bg-transparent border-b-2 border-gray-200 focus:border-accent outline-none transition-colors text-lg" placeholder="Your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-500">Email</label>
+                            <input type="email" required class="w-full px-0 py-4 bg-transparent border-b-2 border-gray-200 focus:border-accent outline-none transition-colors text-lg" placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-500">Project Type</label>
+                            <select class="w-full px-0 py-4 bg-transparent border-b-2 border-gray-200 focus:border-accent outline-none transition-colors text-lg">
+                                <option>Brand Identity</option>
+                                <option>Illustration</option>
+                                <option>Print Design</option>
+                                <option>Packaging</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-500">Message</label>
+                            <textarea rows="3" required class="w-full px-0 py-4 bg-transparent border-b-2 border-gray-200 focus:border-accent outline-none transition-colors text-lg resize-none" placeholder="Tell me about your project..."></textarea>
+                        </div>
+                        <button type="submit" class="mt-4 px-10 py-4 gradient-bg text-white font-semibold rounded-full hover:shadow-lg hover:shadow-accent/30 transition-all transform hover:scale-105">
+                            Send Message →
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Huge Style (Minimal, clean) -->
+    <footer class="bg-primary text-white py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-16">
+                <div>
+                    <p class="text-3xl font-display font-bold gradient-text mb-2">RAAFI.</p>
+                    <p class="text-sm text-white/40">Graphic Designer — Jakarta, Indonesia</p>
+                </div>
+                <div class="flex gap-8 text-sm">
+                    <a href="#" class="text-white/40 hover:text-white transition-colors link-hover">Instagram</a>
+                    <a href="#" class="text-white/40 hover:text-white transition-colors link-hover">Behance</a>
+                    <a href="#" class="text-white/40 hover:text-white transition-colors link-hover">Dribbble</a>
+                    <a href="#" class="text-white/40 hover:text-white transition-colors link-hover">LinkedIn</a>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-white/30"> 2026 Raafi Ramadhan. All rights reserved.</p>
+                <p class="text-sm text-white/30">Crafted with passion & precision</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Image loading
+        document.querySelectorAll('img').forEach(img => {
+            if (img.complete) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', () => img.classList.add('loaded'));
+            }
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-minimal', 'py-4');
+                navbar.classList.remove('py-6');
+            } else {
+                navbar.classList.remove('nav-minimal', 'py-4');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // Mobile menu
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // Contact form
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✨ Message Sent!';
+            btn.classList.remove('gradient-bg');
+            btn.classList.add('bg-green-500');
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-green-500');
+                btn.classList.add('gradient-bg');
+                e.target.reset();
+            }, 3000);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
